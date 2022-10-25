@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1234,795" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1234,4433" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:sc="clr-namespace:System.ComponentModel;assembly=System" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
       <x:String>System.Activities</x:String>
@@ -32,6 +32,9 @@
       <x:String>System.Reflection</x:String>
       <x:String>System.Runtime.InteropServices</x:String>
       <x:String>Microsoft.Office.Interop.Excel</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>UiPath.DataTableUtilities</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -63,26 +66,29 @@
       <AssemblyReference>System.Memory</AssemblyReference>
       <AssemblyReference>System.ServiceModel</AssemblyReference>
       <AssemblyReference>NPOI</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
       <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
       <AssemblyReference>System.Collections.Immutable</AssemblyReference>
       <AssemblyReference>Microsoft.Office.Interop.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="538,730" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="845,4368" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <Sequence DisplayName="Read from Excel" sap:VirtualizedContainerService.HintSize="496,640" sap2010:WorkflowViewState.IdRef="Sequence_3">
+    <Sequence DisplayName="Read from Excel" sap:VirtualizedContainerService.HintSize="803,4278" sap2010:WorkflowViewState.IdRef="Sequence_3">
       <Sequence.Variables>
-        <Variable x:TypeArguments="x:Int32" Name="columnIndex">
-          <Variable.Default>
-            <Literal x:TypeArguments="x:Int32" />
-          </Variable.Default>
-        </Variable>
-        <Variable x:TypeArguments="sd:DataTable" Name="DT1" />
+        <Variable x:TypeArguments="x:Int32" Default="0" Name="columnIndex" />
+        <Variable x:TypeArguments="sd:DataTable" Name="dtZone" />
+        <Variable x:TypeArguments="sd:DataTable" Name="dtCategory" />
+        <Variable x:TypeArguments="sd:DataTable" Name="dtDevice" />
+        <Variable x:TypeArguments="sd:DataTable" Name="dtTestResults" />
+        <Variable x:TypeArguments="x:Boolean" Name="bCreateReadSuccess" />
       </Sequence.Variables>
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -90,33 +96,297 @@
           <x:Boolean x:Key="IsPinned">False</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
-      <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="434,518" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" WorkbookPath="C:\Users\Jandre\Projects\Project-4\CMPG-323-Project-4---31589804\Connected Office Test Data.xlsx">
+      <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="741,4156" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" WorkbookPath="C:\Users\Jandre\Projects\Project-4\CMPG-323-Project-4---31589804\Connected Office Test Data.xlsx">
         <ui:ExcelApplicationScope.Body>
           <ActivityAction x:TypeArguments="ui:WorkbookApplication">
             <ActivityAction.Argument>
               <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
             </ActivityAction.Argument>
-            <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="400,399" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="707,4037" sap2010:WorkflowViewState.IdRef="Sequence_2">
               <Sequence.Variables>
                 <Variable x:TypeArguments="scg:IEnumerable(x:Object)" Name="rowValue" />
                 <Variable x:TypeArguments="scg:IEnumerable(x:Object)" Name="columnValue" />
                 <Variable x:TypeArguments="x:Char" Name="columnLetter" />
-                <Variable x:TypeArguments="x:String" Name="output" />
+                <Variable x:TypeArguments="x:String" Name="zoneOut" />
+                <Variable x:TypeArguments="x:String" Name="catOut" />
+                <Variable x:TypeArguments="x:String" Name="deviceOut" />
+                <Variable x:TypeArguments="x:String" Name="testResOut" />
               </Sequence.Variables>
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-              <ui:ExcelReadRange AddHeaders="True" DataTable="[DT1]" DisplayName="Read Range" sap:VirtualizedContainerService.HintSize="358,69" sap2010:WorkflowViewState.IdRef="ExcelReadRange_2" SheetName="Device">
+              <ui:ExcelReadRange AddHeaders="True" DataTable="[dtZone]" DisplayName="Read Range" sap:VirtualizedContainerService.HintSize="665,69" sap2010:WorkflowViewState.IdRef="ExcelReadRange_2" SheetName="Zone">
                 <ui:ExcelReadRange.Range>
                   <InArgument x:TypeArguments="x:String">
                     <Literal x:TypeArguments="x:String" Value="" />
                   </InArgument>
                 </ui:ExcelReadRange.Range>
               </ui:ExcelReadRange>
-              <ui:OutputDataTable DataTable="[DT1]" DisplayName="Output Data Table" sap:VirtualizedContainerService.HintSize="358,89" sap2010:WorkflowViewState.IdRef="OutputDataTable_1" Text="[output]" />
-              <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="358,71" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="[output]" />
+              <ui:OutputDataTable DataTable="[dtZone]" DisplayName="Output Data Table" sap:VirtualizedContainerService.HintSize="665,89" sap2010:WorkflowViewState.IdRef="OutputDataTable_1" Text="[zoneOut]" />
+              <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="665,71" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="[zoneOut]" />
+              <ui:ExcelReadRange AddHeaders="True" DataTable="[dtCategory]" DisplayName="Read Range" sap:VirtualizedContainerService.HintSize="665,69" sap2010:WorkflowViewState.IdRef="ExcelReadRange_3" SheetName="Category">
+                <ui:ExcelReadRange.Range>
+                  <InArgument x:TypeArguments="x:String">
+                    <Literal x:TypeArguments="x:String" Value="" />
+                  </InArgument>
+                </ui:ExcelReadRange.Range>
+              </ui:ExcelReadRange>
+              <ui:OutputDataTable DataTable="[dtCategory]" DisplayName="Output Data Table" sap:VirtualizedContainerService.HintSize="665,89" sap2010:WorkflowViewState.IdRef="OutputDataTable_2" Text="[catOut]" />
+              <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="665,71" sap2010:WorkflowViewState.IdRef="WriteLine_3" Text="[catOut]" />
+              <ui:ExcelReadRange AddHeaders="True" DataTable="[dtDevice]" DisplayName="Read Range" sap:VirtualizedContainerService.HintSize="665,69" sap2010:WorkflowViewState.IdRef="ExcelReadRange_4" SheetName="Device">
+                <ui:ExcelReadRange.Range>
+                  <InArgument x:TypeArguments="x:String">
+                    <Literal x:TypeArguments="x:String" Value="" />
+                  </InArgument>
+                </ui:ExcelReadRange.Range>
+              </ui:ExcelReadRange>
+              <ui:OutputDataTable DataTable="[dtDevice]" DisplayName="Output Data Table" sap:VirtualizedContainerService.HintSize="665,89" sap2010:WorkflowViewState.IdRef="OutputDataTable_3" Text="[deviceOut]" />
+              <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="665,71" sap2010:WorkflowViewState.IdRef="WriteLine_4" Text="[deviceOut]" />
+              <ui:OpenBrowser AutomaticallyDownloadWebDriver="{x:Null}" CommunicationMethod="{x:Null}" Hidden="{x:Null}" NewSession="{x:Null}" Private="{x:Null}" UiBrowser="{x:Null}" BrowserType="Chrome" DisplayName="Open Browser go to ConnectedOffice webapp" sap:VirtualizedContainerService.HintSize="665,2900" sap2010:WorkflowViewState.IdRef="OpenBrowser_1" Url="https://connectedoffice-devicemanagement.azurewebsites.net/">
+                <ui:OpenBrowser.Body>
+                  <ActivityAction x:TypeArguments="x:Object">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                    </ActivityAction.Argument>
+                    <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="631,2789" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click 'A  /Zones'" sap:VirtualizedContainerService.HintSize="589,116" sap2010:WorkflowViewState.IdRef="Click_4" KeyModifiers="None" MouseButton="BTN_LEFT">
+                        <ui:Click.CursorPosition>
+                          <ui:CursorPosition Position="Center">
+                            <ui:CursorPosition.OffsetX>
+                              <InArgument x:TypeArguments="x:Int32" />
+                            </ui:CursorPosition.OffsetX>
+                            <ui:CursorPosition.OffsetY>
+                              <InArgument x:TypeArguments="x:Int32" />
+                            </ui:CursorPosition.OffsetY>
+                          </ui:CursorPosition>
+                        </ui:Click.CursorPosition>
+                        <ui:Click.Target>
+                          <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="17d68335-03f2-425a-912a-a618cd9e1136" InformativeScreenshot="abd64ab56fc22029b15ae50db064ce91" Selector="&lt;html app='chrome.exe' title='Home Page - Connected Office: Device Management' /&gt;&lt;webctrl aaname='Zones' tag='A' /&gt;">
+                            <ui:Target.TimeoutMS>
+                              <InArgument x:TypeArguments="x:Int32" />
+                            </ui:Target.TimeoutMS>
+                            <ui:Target.WaitForReady>
+                              <InArgument x:TypeArguments="ui:WaitForReady" />
+                            </ui:Target.WaitForReady>
+                          </ui:Target>
+                        </ui:Click.Target>
+                      </ui:Click>
+                      <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="589,1188" sap2010:WorkflowViewState.IdRef="CommentOut_2">
+                        <ui:CommentOut.Body>
+                          <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="476,1100" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[dtZone]" DisplayName="For Each Row in dtZone" sap:VirtualizedContainerService.HintSize="434,1010" sap2010:WorkflowViewState.IdRef="ForEachRow_3">
+                              <ui:ForEachRow.Body>
+                                <ActivityAction x:TypeArguments="sd:DataRow">
+                                  <ActivityAction.Argument>
+                                    <DelegateInArgument x:TypeArguments="sd:DataRow" Name="CurrentRow" />
+                                  </ActivityAction.Argument>
+                                  <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="400,886" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click: Zones +" sap:VirtualizedContainerService.HintSize="358,116" sap2010:WorkflowViewState.IdRef="Click_1" KeyModifiers="None" MouseButton="BTN_LEFT">
+                                      <ui:Click.CursorPosition>
+                                        <ui:CursorPosition Position="Center">
+                                          <ui:CursorPosition.OffsetX>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:CursorPosition.OffsetX>
+                                          <ui:CursorPosition.OffsetY>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:CursorPosition.OffsetY>
+                                        </ui:CursorPosition>
+                                      </ui:Click.CursorPosition>
+                                      <ui:Click.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="18796bbd-0328-4791-a07b-930c9eead873" InformativeScreenshot="59e2c94592cc3d95a3f3c3f427feaa80" Selector="&lt;html app='chrome.exe' title='Zones - Connected Office: Device Management' /&gt;&lt;webctrl aaname='              ' tag='IMG' /&gt;">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                          <ui:Target.WaitForReady>
+                                            <InArgument x:TypeArguments="ui:WaitForReady" />
+                                          </ui:Target.WaitForReady>
+                                        </ui:Target>
+                                      </ui:Click.Target>
+                                    </ui:Click>
+                                    <ui:TypeInto AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" ClickBeforeTyping="True" DisplayName="Type Into 'INPUT  ZoneName'" sap:VirtualizedContainerService.HintSize="358,144" sap2010:WorkflowViewState.IdRef="TypeInto_1" Text="[CurrentRow(&quot;ZoneName&quot;).ToString]">
+                                      <ui:TypeInto.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="8896a945-2471-491b-bf17-ca5ff62ba9fd" InformativeScreenshot="027adfd5e42f682a50b43569ce70fef1" Selector="&lt;html app='chrome.exe' title='Create Zone - Connected Office: Device Management' /&gt;&lt;webctrl id='ZoneName' tag='INPUT' /&gt;">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                          <ui:Target.WaitForReady>
+                                            <InArgument x:TypeArguments="ui:WaitForReady" />
+                                          </ui:Target.WaitForReady>
+                                        </ui:Target>
+                                      </ui:TypeInto.Target>
+                                    </ui:TypeInto>
+                                    <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" DisplayName="Type Into 'INPUT  ZoneDescription'" sap:VirtualizedContainerService.HintSize="358,144" sap2010:WorkflowViewState.IdRef="TypeInto_2" Text="[CurrentRow(&quot;ZoneDescription&quot;).ToString]">
+                                      <ui:TypeInto.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="e517176d-d3cb-4cf6-b671-ecc97306b11c" InformativeScreenshot="163731e632d052ac20a4fac167c8645e" Selector="&lt;html app='chrome.exe' title='Create Zone - Connected Office: Device Management' /&gt;&lt;webctrl id='ZoneDescription' tag='INPUT' /&gt;">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                          <ui:Target.WaitForReady>
+                                            <InArgument x:TypeArguments="ui:WaitForReady" />
+                                          </ui:Target.WaitForReady>
+                                        </ui:Target>
+                                      </ui:TypeInto.Target>
+                                    </ui:TypeInto>
+                                    <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click 'INPUT'" sap:VirtualizedContainerService.HintSize="358,116" sap2010:WorkflowViewState.IdRef="Click_2" KeyModifiers="None" MouseButton="BTN_LEFT">
+                                      <ui:Click.CursorPosition>
+                                        <ui:CursorPosition Position="Center">
+                                          <ui:CursorPosition.OffsetX>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:CursorPosition.OffsetX>
+                                          <ui:CursorPosition.OffsetY>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:CursorPosition.OffsetY>
+                                        </ui:CursorPosition>
+                                      </ui:Click.CursorPosition>
+                                      <ui:Click.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="3d4cd9ba-2804-4fc7-984e-0dded938dfdc" InformativeScreenshot="693721c474001ec3e512ffc0ed569b52" Selector="&lt;html app='chrome.exe' title='Create Zone - Connected Office: Device Management' /&gt;&lt;webctrl tag='INPUT' type='submit' /&gt;">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                          <ui:Target.WaitForReady>
+                                            <InArgument x:TypeArguments="ui:WaitForReady" />
+                                          </ui:Target.WaitForReady>
+                                        </ui:Target>
+                                      </ui:Click.Target>
+                                    </ui:Click>
+                                    <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click 'A  /Zones'" sap:VirtualizedContainerService.HintSize="358,116" sap2010:WorkflowViewState.IdRef="Click_3" KeyModifiers="None" MouseButton="BTN_LEFT">
+                                      <ui:Click.CursorPosition>
+                                        <ui:CursorPosition Position="Center">
+                                          <ui:CursorPosition.OffsetX>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:CursorPosition.OffsetX>
+                                          <ui:CursorPosition.OffsetY>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:CursorPosition.OffsetY>
+                                        </ui:CursorPosition>
+                                      </ui:Click.CursorPosition>
+                                      <ui:Click.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="b672ddb1-1eb5-4ac1-9a0a-93b725757d65" InformativeScreenshot="5285eb733606aaa674f5869596f989db" Selector="&lt;html app='chrome.exe' title='Zone Details - Connected Office: Device Management' /&gt;&lt;webctrl aaname='Back to List' tag='A' /&gt;">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                          <ui:Target.WaitForReady>
+                                            <InArgument x:TypeArguments="ui:WaitForReady" />
+                                          </ui:Target.WaitForReady>
+                                        </ui:Target>
+                                      </ui:Click.Target>
+                                    </ui:Click>
+                                  </Sequence>
+                                </ActivityAction>
+                              </ui:ForEachRow.Body>
+                            </ui:ForEachRow>
+                          </Sequence>
+                        </ui:CommentOut.Body>
+                      </ui:CommentOut>
+                      <ui:BrowserScope Browser="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" BrowserType="Chrome" DisplayName="Attach Browser 'Zones Con Page'" sap:VirtualizedContainerService.HintSize="589,1315" sap2010:WorkflowViewState.IdRef="BrowserScope_2" InformativeScreenshot="f444a60f407c387fbce2471f2baffc3e" Selector="&lt;html app='chrome.exe' title='Zones - Connected Office: Device Management' /&gt;">
+                        <ui:BrowserScope.Body>
+                          <ActivityAction x:TypeArguments="x:Object">
+                            <ActivityAction.Argument>
+                              <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                            </ActivityAction.Argument>
+                            <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="555,1159" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                              <Sequence.Variables>
+                                <Variable x:TypeArguments="sd:DataTable" Name="dtExtractedData" />
+                                <Variable x:TypeArguments="x:String" Name="extractedOutput" />
+                              </Sequence.Variables>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" ClickType="CLICK_SINGLE" ContinueOnError="True" DisplayName="Click 'A  /Zones'" sap:VirtualizedContainerService.HintSize="513,116" sap2010:WorkflowViewState.IdRef="Click_5" KeyModifiers="None" MouseButton="BTN_LEFT">
+                                <ui:Click.CursorPosition>
+                                  <ui:CursorPosition Position="Center">
+                                    <ui:CursorPosition.OffsetX>
+                                      <InArgument x:TypeArguments="x:Int32" />
+                                    </ui:CursorPosition.OffsetX>
+                                    <ui:CursorPosition.OffsetY>
+                                      <InArgument x:TypeArguments="x:Int32" />
+                                    </ui:CursorPosition.OffsetY>
+                                  </ui:CursorPosition>
+                                </ui:Click.CursorPosition>
+                                <ui:Click.Target>
+                                  <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="123c153d-0561-4395-b7e8-d77883748c68" InformativeScreenshot="84225c616f3acd7f49a93b580ec11131" Selector="&lt;webctrl aaname='Back to List' tag='A' /&gt;">
+                                    <ui:Target.TimeoutMS>
+                                      <InArgument x:TypeArguments="x:Int32" />
+                                    </ui:Target.TimeoutMS>
+                                    <ui:Target.WaitForReady>
+                                      <InArgument x:TypeArguments="ui:WaitForReady" />
+                                    </ui:Target.WaitForReady>
+                                  </ui:Target>
+                                </ui:Click.Target>
+                              </ui:Click>
+                              <Sequence DisplayName="Data Scraping" sap:VirtualizedContainerService.HintSize="513,913" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                                <Sequence.Variables>
+                                  <Variable x:TypeArguments="sd:DataTable" Default="[New System.Data.DataTable]" Name="ExtractDataTable" />
+                                </Sequence.Variables>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ui:ExtractData DelayBetweenPagesMS="{x:Null}" NextLinkSelector="{x:Null}" ContinueOnError="True" DataTable="[ExtractDataTable]" DisplayName="Extract Structured Data 'TABLE'" ExtractMetadata="&lt;extract-table get_columns_name='1' get_empty_columns='1' columns_name_source='Longest'&gt;&lt;column name='Zone Name' attr='text' /&gt;&lt;column name='Zone Description' attr='text' /&gt;&lt;column name='Date Created' attr='text' /&gt;&lt;/extract-table&gt;" sap:VirtualizedContainerService.HintSize="451,116" sap2010:WorkflowViewState.IdRef="ExtractData_2" MaxNumberOfResults="0" SimulateClick="True">
+                                  <ui:ExtractData.Target>
+                                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="d1dcfe2e-1108-4f30-b325-aea8b7286064" InformativeScreenshot="356886f3dbfa958d57cf154e4d7cbd12" Selector="&lt;webctrl tag='TABLE' /&gt;" WaitForReady="COMPLETE">
+                                      <ui:Target.TimeoutMS>
+                                        <InArgument x:TypeArguments="x:Int32" />
+                                      </ui:Target.TimeoutMS>
+                                    </ui:Target>
+                                  </ui:ExtractData.Target>
+                                </ui:ExtractData>
+                                <Assign sap:VirtualizedContainerService.HintSize="451,70" sap2010:WorkflowViewState.IdRef="Assign_1">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="sd:DataTable">[dtExtractedData]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="sd:DataTable">[ExtractDataTable.DefaultView.ToTable(False,"Zone Name","Zone Description")]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <ui:OutputDataTable DataTable="[dtExtractedData]" DisplayName="Output Data Table" sap:VirtualizedContainerService.HintSize="451,89" sap2010:WorkflowViewState.IdRef="OutputDataTable_4" Text="[extractedOutput]" />
+                                <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="451,71" sap2010:WorkflowViewState.IdRef="WriteLine_5" Text="[extractedOutput]" />
+                                <ui:IfElseIf DisplayName="Else If" sap:VirtualizedContainerService.HintSize="451,285" sap2010:WorkflowViewState.IdRef="IfElseIf_3">
+                                  <ui:IfElseIf.ConditionBlocks>
+                                    <sc:BindingList x:TypeArguments="ui:IfElseIfBlock" AllowEdit="True" AllowNew="True" AllowRemove="True" RaiseListChangedEvents="True">
+                                      <ui:IfElseIfBlock BlockType="If" Condition="[Not String.IsNullOrEmpty(extractedOutput)]">
+                                        <ui:IfElseIfBlock.Then>
+                                          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="400,81" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                          </Sequence>
+                                        </ui:IfElseIfBlock.Then>
+                                      </ui:IfElseIfBlock>
+                                    </sc:BindingList>
+                                  </ui:IfElseIf.ConditionBlocks>
+                                </ui:IfElseIf>
+                              </Sequence>
+                            </Sequence>
+                          </ActivityAction>
+                        </ui:BrowserScope.Body>
+                      </ui:BrowserScope>
+                    </Sequence>
+                  </ActivityAction>
+                </ui:OpenBrowser.Body>
+              </ui:OpenBrowser>
             </Sequence>
           </ActivityAction>
         </ui:ExcelApplicationScope.Body>
