@@ -1,1 +1,3 @@
 # CMPG-323-Project-4---31589804
+
+In this project, I have created an automation that Inserts, Updates, and Deletes records from an online database. What I think is unique about my project is that, before the edit and delete functions start, the automation checks if the records have been inserted first. By using data scraping, I import the data from the table in the webapp and check if it is empty first. If it is empty, the edit and delete won't happen. I observed that the database has a solid relational formulation, that when a zone is deleted and a device is listed as being in that zone, it will delete the device as well. Thus, when updating and deleting, the Device table is done first to ensure the functionality is applied to that.
